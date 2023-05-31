@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mq-consumer
+spec:
+  replicas: 1                   # Here we are telling K8S the number of containers to process the Redis list items
+  selector:                     # Define the wrapping strategy
+    matchLabels:                # Match all pods with the defined labels
+      app: mq-consumer          # Labels follow the `name: value` template
+  template:                     # This is the template of the pod inside the Deployment
+    metadata:
+      labels:
+        app: mq-consumer
+    spec:
+      containers:
+      - image: autoscaleacr.azurecr.io/receive:latest
+        name: mq-consumer
+        resources:
+          requests:
+            cpu: 1200m
+            memory: 2048Mi
+          limits:
+            cpu: 1800m
+            memory: 4096Mi
+        env:
+          - name: hostname
+            value: "rabbitmq.default.svc.cluster.local"
+          - name: username
+            value: "user"
+          - name: password
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq
+                key: rabbitmq-password
+      tolerations:
+      - key: "kubernetes.azure.com/scalesetpriority"
+        operator: "Equal"
+        value: "spot"
+        effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "kubernetes.azure.com/scalesetpriority"
+                operator: In
+                values:
+                - "spot"
