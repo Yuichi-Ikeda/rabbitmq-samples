@@ -24,7 +24,7 @@ Azure ポータルの [Cloud Shell](https://learn.microsoft.com/ja-jp/azure/clou
 RESOURCE_GROUP=AKS-AutoScale-Cluster-group
 LOCATION=japaneast
 CLUSTER_NAME=AutoScale-Cluster
-ACR_NAME=autoscaleacr
+ACR_NAME=<your_acr_name>
 
 # リソースグループの作成
 az group create -n $RESOURCE_GROUP -l $LOCATION
