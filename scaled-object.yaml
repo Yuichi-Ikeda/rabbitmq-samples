@@ -8,7 +8,7 @@ spec:
     kind: deployment                                # Optional. Default: Deployment
     name: mq-consumer                               # Mandatory. Must be in the same namespace as the ScaledObject
   pollingInterval: 30                                # Optional. Default: 30 seconds
-  cooldownPeriod:  1800                               # Optional. Default: 300 seconds
+  cooldownPeriod:  300                               # Optional. Default: 300 seconds
   minReplicaCount: 0                                # Optional. Default: 0
   maxReplicaCount: 4000                             # Optional. Default: 100
 
@@ -17,4 +17,5 @@ spec:
       metadata:
         host: amqp://user:<mq_password>@rabbitmq.default.svc.cluster.local:5672
         queueName: sample
-        queueLength: "1"
+        mode: QueueLength
+        value: "5"

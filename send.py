@@ -12,17 +12,17 @@ channel = connection.channel()
 
 channel.queue_declare(queue='sample', durable=True)
 
-# JOB GUID for tracking
-jobGUID = str(uuid.uuid4())
-print('job-id: ' + jobGUID, flush=True)
+# JOB ID for tracking
+jobID = str(uuid.uuid4())
+print('job-id: ' + jobID, flush=True)
 
 # Set number of messages to send
-for num in range(20):
+for num in range(4000):
     task = {
-        'job-id': jobGUID,
+        'job-id': jobID,
         'task-id': num,
         'task': 'task for something',
-        'wait-seconds': 30
+        'wait-seconds': 10
     }
     channel.basic_publish(exchange='', 
                         routing_key='sample',

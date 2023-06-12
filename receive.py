@@ -10,7 +10,6 @@ credentials= pika.PlainCredentials('user', password)
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, credentials=credentials))
 channel = connection.channel()
 
-#channel.queue_declare(queue='sample')
 channel.queue_declare(queue='sample', durable=True)
 channel.basic_qos(prefetch_count=1)
 
