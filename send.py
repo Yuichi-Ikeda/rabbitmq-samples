@@ -17,12 +17,12 @@ jobGUID = str(uuid.uuid4())
 print('job-id: ' + jobGUID, flush=True)
 
 # Set number of messages to send
-for num in range(2400):
+for num in range(20):
     task = {
         'job-id': jobGUID,
         'task-id': num,
         'task': 'task for something',
-        'wait-seconds': 300
+        'wait-seconds': 30
     }
     channel.basic_publish(exchange='', 
                         routing_key='sample',
