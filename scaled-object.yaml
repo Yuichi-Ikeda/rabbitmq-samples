@@ -1,0 +1,21 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: scaled-mq-consumer
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1                             # Optional. Default: apps/v1
+    kind: deployment                                # Optional. Default: Deployment
+    name: mq-consumer                               # Mandatory. Must be in the same namespace as the ScaledObject
+  pollingInterval: 30                                # Optional. Default: 30 seconds
+  cooldownPeriod:  600                              # Optional. Default: 300 seconds
+  minReplicaCount: 0                                # Optional. Default: 0
+  maxReplicaCount: 8000                             # Optional. Default: 100
+
+  triggers:
+    - type: rabbitmq
+      metadata:
+        host: amqp://user:<mq_password>@rabbitmq.default.svc.cluster.local:5672
+        queueName: sample
+        mode: QueueLength
+        value: "5"
