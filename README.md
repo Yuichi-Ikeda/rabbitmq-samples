@@ -89,9 +89,6 @@ kubectl apply -f https://github.com/kedacore/keda/releases/download/v2.10.1/keda
 
 # RabbitMQ のインストール、出力結果をメモしておきます
 helm install rabbitmq bitnami-azure/rabbitmq
-
-# RabbitMQ のレプリカ数を 3 に設定
-kubectl scale --replicas=3 statefulset/rabbitmq
 ```
 
 ## コンテナイメージの Build と Azure Container Registry への Push
