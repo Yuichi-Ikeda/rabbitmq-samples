@@ -88,7 +88,10 @@ az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP
 kubectl apply -f https://github.com/kedacore/keda/releases/download/v2.10.1/keda-2.10.1.yaml
 
 # RabbitMQ のインストール、出力結果をメモしておきます
-helm install rabbitmq bitnami-azure/rabbitmq
+helm install rabbitmq bitnami-azure/rabbitmq --set clustering.forceBoot=true
+
+# RabbitMQ のレプリカ数を 3 に設定
+kubectl scale --replicas=3 statefulset/rabbitmq
 ```
 
 ## コンテナイメージの Build と Azure Container Registry への Push
